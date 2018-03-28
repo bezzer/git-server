@@ -1,4 +1,5 @@
-import { openRepo } from "./utils";
+import mime from "mime-types";
+import { openRepo, getCommit } from "./utils";
 
 const readFile = async (user, selectedRepo, selectedCommit, path, res) => {
   try {
@@ -15,7 +16,7 @@ const readFile = async (user, selectedRepo, selectedCommit, path, res) => {
 
     const blob = await entry.getBlob();
     res.writeHead(200, {
-      "Content-Type": mime.lookup(filepath),
+      "Content-Type": mime.lookup(entry.name()),
       "Content-Length": blob.rawsize(),
     });
 

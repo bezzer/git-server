@@ -7,8 +7,8 @@ import { auth, repos } from "../services/user";
 const api = express.Router();
 
 // Create new repo
-api.get(
-  "/create/:user/:repo",
+api.post(
+  "/:user/:repo",
   auth.authenticate(["basic"], { session: false }),
   async (req, res) => {
     const { user, repo } = req.params;
@@ -36,6 +36,15 @@ api.get("/:user", async (req, res) => {
   res.json({ success: true, data });
 });
 
+// List commit history for repo
+api.get("/:user/:repo", async (req, res) => {
+  const { user, repo } = req.params;
+  console.log(new Date(), "History request", user, repo);
+  const data = await history(user, repo);
+
+  res.json({ success: true, data });
+});
+
 // List files in repo
 api.get("/:user/:repo/:commit/*", async (req, res) => {
   const { user, repo, commit } = req.params;
@@ -43,14 +52,6 @@ api.get("/:user/:repo/:commit/*", async (req, res) => {
   const data = await files(user, repo, commit, path);
 
   res.json({ success: true, data });
-});
-
-// List commit history for repo
-api.get("/history/:user/:repo", async (req, res) => {
-  const { user, repo } = req.params;
-  const data = await history(user, repo);
-
-  res.json({ success: true, data: [] });
 });
 
 export default api;

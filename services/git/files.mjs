@@ -9,7 +9,6 @@ const files = async (user, selectedRepo, selectedCommit, path) => {
     repo = await openRepo(user, selectedRepo);
     const commit = await getCommit(repo, selectedCommit);
     const tree = await commit.getTree();
-    let pathTree = tree;
     let result = {};
 
     // Try to look up the specified path
@@ -17,15 +16,21 @@ const files = async (user, selectedRepo, selectedCommit, path) => {
       const pathEntry = await tree.getEntry(path);
       result = formatEntry(user, selectedRepo, selectedCommit, pathEntry);
       if (pathEntry.isTree()) {
-        pathTree = await pathEntry.getTree();
+        const pathTree = await pathEntry.getTree();
+        // List the contents of the selected path
+        const entries = await pathTree.entries();
+        // Map entries to an array of file/folder properties
+        result.children = entries.map(entry =>
+          formatEntry(user, selectedRepo, selectedCommit, entry)
+        );
       }
+    } else {
+      const entries = await tree.entries();
+      // Map entries to an array of file/folder properties
+      result.children = entries.map(entry =>
+        formatEntry(user, selectedRepo, selectedCommit, entry)
+      );
     }
-    // List the contents of the selected path
-    const entries = await pathTree.entries();
-    // Map entries to an array of file/folder properties
-    result.children = entries.map(entry =>
-      formatEntry(user, selectedRepo, selectedCommit, entry)
-    );
 
     return result;
   } catch (err) {

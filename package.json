@@ -1,0 +1,28 @@
+{
+  "name": "git-server",
+  "version": "1.0.0",
+  "description":
+    "A simple git server to understand how to serve and display files from git repos",
+  "main": "app.mjs",
+  "scripts": {
+    "start": "node --experimental-modules app.mjs",
+    "dev": "nodemon --experimental-modules app.mjs"
+  },
+  "keywords": ["git", "nodegit", "api"],
+  "author": "Chris Berry",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "fs-extra": "^5.0.0",
+    "node-git-server": "^0.4.2",
+    "nodegit": "^0.21.2",
+    "passport": "^0.4.0",
+    "passport-anonymous": "^1.0.1",
+    "passport-http": "^0.3.0",
+    "pushover": "^1.3.6",
+    "yarn": "^1.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.2"
+  }
+}

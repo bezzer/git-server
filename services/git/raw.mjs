@@ -24,3 +24,5 @@ const readFile = async (user, selectedRepo, selectedCommit, path, res) => {
     res.status(404).send(`Not found: ${error.message}`);
   }
 };
+
+export default readFile;

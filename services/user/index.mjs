@@ -1,3 +1,4 @@
 import repos from "./repos";
+import auth from "./auth";
 
-export { repos };
+export { auth, repos };

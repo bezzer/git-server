@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
-import { getCommit } from "./utils.mjs";
+import { getCommit, openRepo } from "./utils.mjs";
 
 // Link to raw file data
 const getRawUrl = (user, repo, commit, path) =>
@@ -13,7 +13,7 @@ const files = async (user, selectedRepo, selectedCommit, path) => {
   let repo;
   try {
     repo = await openRepo(user, selectedRepo);
-    const commit = getCommit(repo, commit);
+    const commit = await getCommit(repo, selectedCommit);
     const tree = await commit.getTree();
 
     // Try to look up the specified path
